@@ -251,7 +251,6 @@ function draw() {
            reset();
         }
    }
-    //bbb
 
     drawSprites();
     textscore();
