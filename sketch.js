@@ -12,7 +12,9 @@ var line;
 var base,baseImg;
 var dimond,dimondImg,dimondGroup;
 var coins=0;
-var icon,iconImg
+var icon,iconImg;
+var BulletIcon,BulletImgI;
+var upIcon,upImg;
 
 function preload(){
 
@@ -27,6 +29,8 @@ function preload(){
     restartImg = loadImage("restart.png");
     baseImg = loadImage("base.jpg");
     iconImg = loadImage("icon.png");
+    BulletImgI = loadImage("bullet icon.png");
+    upImg = loadImage("up icon.png");
 
     dimondImg = loadImage("diamond.png");
     spinImg = loadImage("spin.png");
@@ -56,7 +60,7 @@ function setup() {
     DarkBeast.addAnimation("shooting", DBS_Img);
     DarkBeast.scale = 0.9;
 
-    Bullet = createSprite(140,319,10,5);
+    Bullet = createSprite(140,326,10,5);
     Bullet.addImage(BulletImg);
     Bullet.scale = 0.04;
     Bullet.visible = false;
@@ -65,7 +69,7 @@ function setup() {
     base.addImage(baseImg);
     base.scale=1;
     base.visible=false;
-
+  
     Ground = createSprite(500,410,1000,20);
     Ground.shapeColor="gold";
     Ground.visible = false;
@@ -95,6 +99,14 @@ function setup() {
     icon.addImage(iconImg);
     icon.scale=0.04;
 
+    BulletIcon=createSprite(910,360,50,50);
+    BulletIcon.addImage(BulletImgI);
+    BulletIcon.scale=0.08;
+
+    upIcon=createSprite(840,390,50,50);
+    upIcon.addImage(upImg);
+    upIcon.scale=0.06;
+
     RocksGroup = createGroup();
     ZombiesGroup = createGroup();
     BloodyGroup = createGroup();
@@ -102,6 +114,7 @@ function setup() {
     dimondGroup = createGroup();
 
     Score = 0;
+    coins =0;
 
     DarkBeast.setCollider("rectangle",-10,0,60,120);
 }
@@ -113,6 +126,9 @@ function draw() {
 
     if (gameState === "play") {
 
+        BulletIcon.visible=true;
+        upIcon.visible=true;
+
         if(line.isTouching(spinGroup) || line.isTouching(ZombiesGroup) || line.isTouching(BloodyGroup) ) {
                 gameState = "end";
         }
@@ -121,6 +137,7 @@ function draw() {
                 dimondGroup.destroyEach();
                 coins=coins+1;
         }  
+
 
         Bullet.depth=DarkBeast.depth;
         DarkBeast.depth=DarkBeast.depth+1;
@@ -141,17 +158,27 @@ function draw() {
                 DarkBeast.changeAnimation("walking", DBWImg);
         }
 
+        if(mousePressedOver(upIcon)  && DarkBeast.y >= 325){
+                DarkBeast.velocityY = -11;
+                DarkBeast.changeAnimation("jumping", DBJImg);
+                Bullet.x = 130;
+                Bullet.velocityX = 0;
+                Bullet.visible = false;
+        }
+
             DarkBeast.velocityY = DarkBeast.velocityY + 0.5
             DarkBeast.collide(Ground);
            
-        if(keyDown("enter")) {
-               DarkBeast.changeAnimation("shooting", DBS_Img);
-               Bullet.velocityX = 20;
-               Bullet.visible = true;
-        } 
+            if(keyDown("enter")) {
+                DarkBeast.changeAnimation("shooting", DBS_Img);
+                Bullet.velocityX = 20;
+                Bullet.visible = true;
+         } 
 
-        if(keyWentUp("enter")){
-                DarkBeast.changeAnimation("walking", DBWImg);
+        if(mousePressedOver(BulletIcon)){
+              DarkBeast.changeAnimation("shooting", DBS_Img);
+              Bullet.velocityX = 20;
+              Bullet.visible = true;
         }
 
         if(ZombiesGroup.isTouching(Bullet)){
@@ -216,6 +243,9 @@ function draw() {
         
         GameOver.visible = true;
         Restart.visible = true;
+
+        BulletIcon.visible=false;
+        upIcon.visible=false;
 
         if(mousePressedOver(Restart)){
            reset();
@@ -338,6 +368,8 @@ function reset(){
     gameState = "play";
     GameOver.visible = false;
     Restart.visible = false;
+    BulletIcon.visible=true;
+    upIcon.visible=true;
     
     RocksGroup.destroyEach();
     ZombiesGroup.destroyEach();
@@ -351,7 +383,7 @@ function reset(){
     DarkBeast.addAnimation("shooting", DBS_Img);
     DarkBeast.scale = 0.9;
 
-    Bullet = createSprite(140,319,10,5);
+    Bullet = createSprite(140,326,10,5);
     Bullet.addImage(BulletImg);
     Bullet.scale = 0.04;
     Bullet.visible = false;
@@ -390,6 +422,14 @@ function reset(){
     icon.addImage(iconImg);
     icon.scale=0.04;
 
+    BulletIcon=createSprite(910,360,50,50);
+    BulletIcon.addImage(BulletImgI);
+    BulletIcon.scale=0.08;
+
+    upIcon=createSprite(840,390,50,50);
+    upIcon.addImage(upImg);
+    upIcon.scale=0.06;
+
     RocksGroup = createGroup();
     ZombiesGroup = createGroup();
     BloodyGroup = createGroup();
@@ -397,6 +437,7 @@ function reset(){
     dimondGroup = createGroup();
 
     Score = 0;
+    coins = 0;
 
     DarkBeast.setCollider("rectangle",-10,0,60,120);
 }
