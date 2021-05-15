@@ -52,7 +52,7 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(displayWidth, displayHeight);
+    createCanvas(windowWidth, windowHeight);
 
     DarkBeast = createSprite(displayWidth/10,displayHeight/1.5);
     DarkBeast.addAnimation("walking", DBWImg);
