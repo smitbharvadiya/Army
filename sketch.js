@@ -52,9 +52,9 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(displayWidth, displayHeight);
 
-    DarkBeast = createSprite(windowWidth/10,windowHeight/1.5,50,80);
+    DarkBeast = createSprite(displayWidth/10,displayHeight/1.5);
     DarkBeast.addAnimation("walking", DBWImg);
     DarkBeast.addAnimation("jumping", DBJImg);
     DarkBeast.addAnimation("shooting", DBS_Img);
@@ -74,7 +74,7 @@ function setup() {
     Ground.shapeColor="gold";
     Ground.visible = false;
 
-    Background = createSprite(windowWidth/2,windowHeight/2,width,windowHeight);
+    Background = createSprite(displayWidth/2,displayHeight/2);
     Background.addImage(groundImg);
     Background.scale = 1.57;
     Background.x = Background.width/2;
